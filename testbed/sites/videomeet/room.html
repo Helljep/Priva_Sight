@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VideoMeet - Room</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="videomeet" data-requires-login>
+<header class="top"><span class="brand">VideoMeet</span><a href="lobby.html">Lobby</a><a href="room.html">Room</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Team sync</h1><video data-face data-of="0" muted></video>
+<div class="grid"><div class="tile"><img class="avatar" data-face data-of="3" alt="participant"><div data-bind="name" data-of="3"></div></div>
+<div class="tile"><img class="avatar" data-face data-of="4" alt="participant"><div data-bind="name" data-of="4"></div></div></div>
+<button data-click-action="mute" data-success="Muted">Mute</button> <button data-click-action="leave" data-success="Left meeting">Leave</button><div id="result"></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

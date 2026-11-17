@@ -1,0 +1,6 @@
+id: shop-03-cart-page
+site: shopmart
+start: products
+goal: click "Cart" then expect "Your cart"
+success:
+  page_text: Your cart

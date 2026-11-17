@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DemoBank - Dashboard</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="demobank" data-requires-login>
+<header class="top"><span class="brand">DemoBank</span><a href="dashboard.html">Dashboard</a><a href="profile.html">Profile</a><a href="transfer.html">Transfer</a><a href="statements.html">Statements</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Welcome, <span data-bind="name"></span></h1>
+<div class="row"><span class="k">Account no.</span><span class="v" data-bind="account"></span></div><div class="row"><span class="k">IFSC</span><span class="v" data-bind="ifsc"></span></div><div class="row"><span class="k">Balance</span><span class="v" data-bind="balance"></span></div></section>
+<section class="card"><h2>Registered contact</h2><div class="row"><span class="k">Mobile</span><span class="v" data-bind="phone"></span></div><div class="row"><span class="k">Email</span><span class="v" data-bind="email"></span></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

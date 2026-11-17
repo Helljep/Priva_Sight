@@ -1,0 +1,10 @@
+id: bank-06-transfer-500
+site: demobank
+start: login
+goal: log in then click "Transfer" then select "Priya Nair" in "Payee" then type "500"
+  into "Amount" then click "Transfer now"
+success:
+  action: transfer
+  data:
+    amount: '500'
+    payee: Priya Nair

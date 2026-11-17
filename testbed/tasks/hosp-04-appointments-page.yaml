@@ -1,0 +1,6 @@
+id: hosp-04-appointments-page
+site: hospital
+start: login
+goal: log in then click "Appointments" then expect "Book an appointment"
+success:
+  page_text: Book an appointment

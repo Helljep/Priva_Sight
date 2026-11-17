@@ -1,0 +1,6 @@
+id: bank-02-view-profile
+site: demobank
+start: login
+goal: log in then click "Profile" then expect "Your profile"
+success:
+  page_text: Your profile

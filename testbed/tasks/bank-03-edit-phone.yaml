@@ -1,0 +1,9 @@
+id: bank-03-edit-phone
+site: demobank
+start: login
+goal: log in then click "Profile" then type "+91 98450 12345" into "Mobile number"
+  then click "Save changes"
+success:
+  action: edit_profile
+  data:
+    phone: +91 98450 12345

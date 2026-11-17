@@ -1,0 +1,6 @@
+id: mail-01-login
+site: mailbox
+start: login
+goal: log in then expect "Inbox"
+success:
+  page_text: Inbox

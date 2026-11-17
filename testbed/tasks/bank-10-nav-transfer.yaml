@@ -1,0 +1,6 @@
+id: bank-10-nav-transfer
+site: demobank
+start: login
+goal: log in then click "Transfer" then expect "Fund transfer"
+success:
+  page_text: Fund transfer

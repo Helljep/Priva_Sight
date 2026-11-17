@@ -1,0 +1,6 @@
+id: hr-01-login
+site: hr
+start: login
+goal: log in
+success:
+  loggedIn: true

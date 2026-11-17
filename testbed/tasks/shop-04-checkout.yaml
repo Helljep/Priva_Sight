@@ -1,0 +1,6 @@
+id: shop-04-checkout
+site: shopmart
+start: checkout
+goal: click "Place order"
+success:
+  action: place_order

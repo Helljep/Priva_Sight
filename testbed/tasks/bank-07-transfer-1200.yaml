@@ -1,0 +1,10 @@
+id: bank-07-transfer-1200
+site: demobank
+start: login
+goal: log in then click "Transfer" then select "Arun Kumar" in "Payee" then type "1200"
+  into "Amount" then click "Transfer now"
+success:
+  action: transfer
+  data:
+    amount: '1200'
+    payee: Arun Kumar

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DemoBank - Profile</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="demobank" data-requires-login>
+<header class="top"><span class="brand">DemoBank</span><a href="dashboard.html">Dashboard</a><a href="profile.html">Profile</a><a href="transfer.html">Transfer</a><a href="statements.html">Statements</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Your profile</h1>
+<div class="row"><span class="k">Name</span><span class="v" data-bind="name"></span></div><div class="row"><span class="k">Date of birth</span><span class="v" data-bind="dob"></span></div><div class="row"><span class="k">Aadhaar</span><span class="v" data-bind="aadhaar"></span></div><div class="row"><span class="k">PAN</span><span class="v" data-bind="pan"></span></div>
+<div class="row"><span class="k">Address</span><span class="v" data-bind="address"></span></div><div class="row"><span class="k">Card</span><span class="v" data-bind="card"></span></div></section>
+<section class="card"><h2>Edit contact details</h2>
+<form data-action="edit_profile" data-success="Profile updated">
+<label for="phone">Mobile number</label><input id="phone" name="phone" data-bind-value="phone">
+<label for="email">Email address</label><input id="email" name="email" data-bind-value="email">
+<button type="submit">Save changes</button></form><div id="result"></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

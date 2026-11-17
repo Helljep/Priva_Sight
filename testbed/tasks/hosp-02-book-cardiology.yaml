@@ -1,0 +1,9 @@
+id: hosp-02-book-cardiology
+site: hospital
+start: login
+goal: log in then click "Appointments" then select "Cardiology" in "Department" then
+  click "Book appointment"
+success:
+  action: book_appointment
+  data:
+    dept: Cardiology

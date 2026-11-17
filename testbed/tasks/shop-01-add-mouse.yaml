@@ -1,0 +1,6 @@
+id: shop-01-add-mouse
+site: shopmart
+start: products
+goal: click "Add to cart"
+success:
+  action: add_cart

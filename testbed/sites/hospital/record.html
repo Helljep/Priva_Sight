@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>City Hospital - My record</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="hospital" data-requires-login>
+<header class="top"><span class="brand">City Hospital</span><a href="record.html">My Record</a><a href="appointments.html">Appointments</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Patient record</h1><img class="avatar" data-face alt="patient photo">
+<div class="row"><span class="k">Patient</span><span class="v" data-bind="name"></span></div><div class="row"><span class="k">Date of birth</span><span class="v" data-bind="dob"></span></div><div class="row"><span class="k">Aadhaar</span><span class="v" data-bind="aadhaar"></span></div><div class="row"><span class="k">Mobile</span><span class="v" data-bind="phone"></span></div><div class="row"><span class="k">Address</span><span class="v" data-bind="address"></span></div>
+<div class="row"><span class="k">Condition</span><span class="v" data-bind="condition"></span></div><div class="row"><span class="k">Doctor</span><span class="v" data-bind="doctor"></span></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

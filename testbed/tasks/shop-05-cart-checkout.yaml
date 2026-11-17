@@ -1,0 +1,6 @@
+id: shop-05-cart-checkout
+site: shopmart
+start: cart
+goal: click "Proceed to checkout" then click "Place order"
+success:
+  action: place_order

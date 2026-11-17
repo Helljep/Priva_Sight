@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShopMart - Checkout</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="shopmart">
+<header class="top"><span class="brand">ShopMart</span><a href="products.html">Products</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a></header>
+<main>
+
+<section class="card"><h1>Checkout</h1>
+<form data-action="place_order" data-success="Order placed">
+<label for="fullname">Full name</label><input id="fullname" name="fullname" autocomplete="name" data-bind-value="name">
+<label for="addr">Delivery address</label><input id="addr" name="address" autocomplete="street-address" data-bind-value="address">
+<label for="phone">Phone</label><input id="phone" name="phone" autocomplete="tel" data-bind-value="phone">
+<label for="card">Card number</label><input id="card" name="card" autocomplete="cc-number" data-bind-value="card">
+<button type="submit">Place order</button></form><div id="result"></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

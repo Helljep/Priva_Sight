@@ -1,0 +1,6 @@
+id: hosp-01-record
+site: hospital
+start: login
+goal: log in then expect "Patient record"
+success:
+  page_text: Patient record

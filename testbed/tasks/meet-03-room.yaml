@@ -1,0 +1,6 @@
+id: meet-03-room
+site: videomeet
+start: room
+goal: click "Mute"
+success:
+  action: mute

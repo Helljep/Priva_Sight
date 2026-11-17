@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VideoMeet - Lobby</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="videomeet" data-requires-login>
+<header class="top"><span class="brand">VideoMeet</span><a href="lobby.html">Lobby</a><a href="room.html">Room</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Ready to join?</h1><img class="avatar" data-face alt="your camera preview">
+<form data-action="join_meeting" data-success="Joined meeting"><label for="display">Display name</label><input id="display" name="display" data-bind-value="name">
+<button type="submit">Join now</button></form><div id="result"></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

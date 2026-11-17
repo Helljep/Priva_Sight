@@ -1,0 +1,31 @@
+/* site.css - shared look for the six synthetic sites, plus 5 layout variants.
+   All layouts keep a LIGHT background so redaction boxes are measurable. */
+* { box-sizing: border-box; }
+body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f4f6fa; color: #1c2430; }
+header.top { background: #1f3a68; color: #fff; padding: 10px 20px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+header.top .brand { font-weight: 700; font-size: 18px; margin-right: auto; }
+header.top a { color: #dbe6ff; text-decoration: none; }
+main { padding: 20px; max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.card { background: #fff; border: 1px solid #d5dbe6; border-radius: 8px; padding: 16px; }
+h1 { font-size: 22px; margin: 0 0 8px; } h2 { font-size: 16px; margin: 0 0 8px; }
+.row { display: flex; gap: 12px; padding: 4px 0; border-bottom: 1px dashed #e3e7ef; }
+.row .k { width: 150px; color: #5b6676; flex: none; } .row .v { font-weight: 600; }
+label { display: block; margin: 8px 0 3px; font-weight: 600; }
+input, select, textarea { width: 100%; max-width: 380px; padding: 8px; border: 1px solid #aeb8c8; border-radius: 6px; font: inherit; background: #fff; color: #1c2430; }
+button, .btn { padding: 8px 16px; border: 0; border-radius: 6px; background: #2557d6; color: #fff; font: inherit; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
+.error { color: #b42318; margin-top: 6px; } #result { margin-top: 10px; font-weight: 700; color: #1a7f37; }
+table { width: 100%; border-collapse: collapse; } th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e3e7ef; }
+img.avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; display: block; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.tile { text-align: center; } .tile img.avatar { margin: 0 auto 6px; }
+video { width: 100%; max-width: 420px; height: 240px; background: #d9dfeb; display: block; }
+
+/* layout 2: two-column card grid */
+.layout-2 main { display: grid; grid-template-columns: 1fr 1fr; }
+/* layout 3: compact / dense */
+.layout-3 { font-size: 12.5px; } .layout-3 main { padding: 8px; gap: 8px; } .layout-3 .card { padding: 8px; } .layout-3 img.avatar { width: 64px; height: 64px; }
+/* layout 4: large text, spacious */
+.layout-4 { font-size: 19px; } .layout-4 main { gap: 28px; padding: 32px; } .layout-4 img.avatar { width: 128px; height: 128px; }
+/* layout 5: reversed order, wide labels, bold high-contrast */
+.layout-5 main { flex-direction: column-reverse; } .layout-5 .row .k { width: 220px; color: #000; } .layout-5 .card { border: 2px solid #000; }
+@media (max-width: 700px) { .layout-2 main { grid-template-columns: 1fr; } }

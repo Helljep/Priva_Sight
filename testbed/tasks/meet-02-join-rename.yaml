@@ -1,0 +1,8 @@
+id: meet-02-join-rename
+site: videomeet
+start: login
+goal: log in then type "Guest User" into "Display name" then click "Join now"
+success:
+  action: join_meeting
+  data:
+    display: Guest User

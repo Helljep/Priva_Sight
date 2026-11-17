@@ -1,0 +1,10 @@
+id: bank-05-edit-both
+site: demobank
+start: login
+goal: log in then click "Profile" then type "+91 98450 12345" into "Mobile number"
+  then type "new.mail@example.test" into "Email address" then click "Save changes"
+success:
+  action: edit_profile
+  data:
+    phone: +91 98450 12345
+    email: new.mail@example.test

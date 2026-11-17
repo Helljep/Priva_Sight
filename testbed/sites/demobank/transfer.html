@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DemoBank - Transfer</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="demobank" data-requires-login>
+<header class="top"><span class="brand">DemoBank</span><a href="dashboard.html">Dashboard</a><a href="profile.html">Profile</a><a href="transfer.html">Transfer</a><a href="statements.html">Statements</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Fund transfer</h1>
+<form data-action="transfer" data-success="Transfer successful">
+<label for="payee">Payee</label><select id="payee" name="payee"><option>Priya Nair</option><option>Arun Kumar</option></select>
+<label for="amount">Amount (INR)</label><input id="amount" name="amount" inputmode="numeric">
+<button type="submit">Transfer now</button></form><div id="result"></div>
+<p>Saved payee: <span data-pii="NAME">Priya Nair</span></p></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

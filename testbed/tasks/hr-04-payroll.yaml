@@ -1,0 +1,6 @@
+id: hr-04-payroll
+site: hr
+start: login
+goal: log in then click "Payroll" then expect "Net pay"
+success:
+  page_text: Net pay

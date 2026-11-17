@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HR Portal - My profile</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="hr" data-requires-login>
+<header class="top"><span class="brand">HR Portal</span><a href="profile.html">My Profile</a><a href="directory.html">Directory</a><a href="payroll.html">Payroll</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Employee profile</h1><img class="avatar" data-face alt="profile photo">
+<div class="row"><span class="k">Name</span><span class="v" data-bind="name"></span></div><div class="row"><span class="k">Department</span><span class="v" data-bind="department"></span></div><div class="row"><span class="k">Email</span><span class="v" data-bind="email"></span></div><div class="row"><span class="k">Phone</span><span class="v" data-bind="phone"></span></div><div class="row"><span class="k">Address</span><span class="v" data-bind="address"></span></div></section>
+<section class="card"><h2>Update phone</h2><form data-action="update_phone" data-success="Phone updated">
+<label for="phone">Phone</label><input id="phone" name="phone" data-bind-value="phone"><button type="submit">Save</button></form><div id="result"></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

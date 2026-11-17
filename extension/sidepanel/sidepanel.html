@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PrivaSight</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header>
+    <h1>PrivaSight</h1>
+    <span id="shield" class="pill">checking…</span>
+  </header>
+
+  <section class="shield">
+    <label class="check"><input type="checkbox" id="shield"> <b>Shield mode</b> - redact the page itself for ANY agent</label>
+    <label class="check"><input type="checkbox" id="shield-strict"> Blur every image (strict)</label>
+    <p class="hint">While on, screenshots and page text read by any agent show tokens like <code>[PHONE_1]</code>, not real values. You see the shielded page too.</p>
+  </section>
+
+  <section class="shield">
+    <label class="check"><input type="checkbox" id="gateway"> <b>Agent gateway</b> - let an external agent (MCP) use PrivaSight</label>
+    <label>Agent token (optional)<input id="gw-token" type="password" autocomplete="off"></label>
+    <p class="hint" id="gw-status">off</p>
+  </section>
+
+  <section>
+    <label for="goal">What should the agent do?</label>
+    <textarea id="goal" rows="3" placeholder="e.g. Log in to DemoBank and transfer 500 to the saved payee Priya"></textarea>
+    <p class="hint">Scripted server (no model)? Use steps like: <code>log in then click "Transfer" then type "500" into "Amount"</code></p>
+    <div class="row">
+      <button id="run" class="primary">Run agent</button>
+      <button id="stop" disabled>Stop</button>
+      <button id="preview" title="Show exactly what the server would receive for this tab">Preview what's sent</button>
+    </div>
+  </section>
+
+  <details>
+    <summary>Secrets vault <small>(stay on this device)</small></summary>
+    <p class="hint">The model only sees the token, e.g. <code>{PASSWORD}</code>. The real value is typed locally.</p>
+    <div class="grid">
+      <label>{USERNAME}<input id="sec-username" autocomplete="off"></label>
+      <label>{PASSWORD}<input id="sec-password" type="password" autocomplete="off"></label>
+      <label>{OTP}<input id="sec-otp" type="password" autocomplete="off"></label>
+    </div>
+  </details>
+
+  <details>
+    <summary>Detection layers</summary>
+    <div class="grid">
+      <label class="check"><input type="checkbox" id="l-dom" checked> DOM rules</label>
+      <label class="check"><input type="checkbox" id="l-regex" checked> Regex + checksums</label>
+      <label class="check"><input type="checkbox" id="l-ner" checked> Name NER</label>
+      <label class="check"><input type="checkbox" id="l-faces" checked> Faces / video</label>
+      <label class="check"><input type="checkbox" id="l-ocr" checked> Image OCR</label>
+    </div>
+    <p class="hint" id="layer-status"></p>
+  </details>
+
+  <details>
+    <summary>Server</summary>
+    <label>Planner server URL<input id="server" value="http://127.0.0.1:8787"></label>
+    <label>Max steps<input id="maxsteps" type="number" min="1" max="40" value="15"></label>
+  </details>
+
+  <section>
+    <h2>Run log</h2>
+    <ol id="log"></ol>
+  </section>
+
+  <section id="preview-box" hidden>
+    <h2>Sanitised screenshot</h2>
+    <img id="preview-img" alt="Sanitised screenshot the server would receive">
+    <pre id="preview-json"></pre>
+  </section>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

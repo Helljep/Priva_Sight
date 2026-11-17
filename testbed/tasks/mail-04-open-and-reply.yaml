@@ -1,0 +1,9 @@
+id: mail-04-open-and-reply
+site: mailbox
+start: login
+goal: log in then click "Your KYC documents" then type "Will call you" into "Message"
+  then click "Send reply"
+success:
+  action: send_mail
+  data:
+    body: Will call you

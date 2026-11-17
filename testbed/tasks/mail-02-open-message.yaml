@@ -1,0 +1,6 @@
+id: mail-02-open-message
+site: mailbox
+start: login
+goal: log in then click "Your KYC documents" then expect "Reply"
+success:
+  page_text: Reply

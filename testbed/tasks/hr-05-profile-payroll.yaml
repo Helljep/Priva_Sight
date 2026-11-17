@@ -1,0 +1,6 @@
+id: hr-05-profile-payroll
+site: hr
+start: login
+goal: log in then click "Payroll" then click "My Profile" then expect "Employee profile"
+success:
+  page_text: Employee profile

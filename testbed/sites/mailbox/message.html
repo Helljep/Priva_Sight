@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MailBox - Message</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="mailbox" data-requires-login>
+<header class="top"><span class="brand">MailBox</span><a href="inbox.html">Inbox</a><a href="message.html">Message</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Your KYC documents</h1>
+<p>From: <b data-bind="name" data-of="1"></b> (<span data-bind="email" data-of="1"></span>)</p>
+<p>Hello <span data-bind="first"></span>, please confirm the Aadhaar <span data-bind="aadhaar"></span> and PAN <span data-bind="pan"></span> on file.
+Call me on <span data-bind="phone" data-of="1"></span> if needed.</p></section>
+<section class="card"><h2>Reply</h2><form data-action="send_mail" data-success="Message sent">
+<label for="body">Message</label><textarea id="body" name="body" rows="3"></textarea><button type="submit">Send reply</button></form><div id="result"></div></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

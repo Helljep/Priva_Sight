@@ -1,0 +1,98 @@
+[
+ {
+  "text": "Aadhaar: 3417 0753 6454",
+  "types": [
+   "AADHAAR"
+  ]
+ },
+ {
+  "text": "Aadhaar: 3417 0753 6455",
+  "types": []
+ },
+ {
+  "text": "Card 4111 8447 2940 5570 expires 12/29",
+  "types": [
+   "CARD"
+  ]
+ },
+ {
+  "text": "Card 4111 1111 1111 1112",
+  "types": []
+ },
+ {
+  "text": "PAN LZMPX8151R",
+  "types": [
+   "PAN"
+  ]
+ },
+ {
+  "text": "Ref ABCDE1234Z",
+  "types": []
+ },
+ {
+  "text": "Call +91 99879 73091",
+  "types": [
+   "PHONE"
+  ]
+ },
+ {
+  "text": "Call 98450 12345",
+  "types": [
+   "PHONE"
+  ]
+ },
+ {
+  "text": "Call 12345 67890",
+  "types": []
+ },
+ {
+  "text": "Mail ishaan.kulkarni29@example.test",
+  "types": [
+   "EMAIL"
+  ]
+ },
+ {
+  "text": "IFSC MOCK0537866",
+  "types": [
+   "IFSC"
+  ]
+ },
+ {
+  "text": "Account number 123456789012",
+  "types": [
+   "ACCOUNT"
+  ]
+ },
+ {
+  "text": "Order number 123456789012",
+  "types": []
+ },
+ {
+  "text": "DOB: 14/03/1990",
+  "types": [
+   "DOB"
+  ]
+ },
+ {
+  "text": "Posted on 14/03/2026",
+  "types": []
+ },
+ {
+  "text": "Address: 12 MG Road, Bengaluru 560001",
+  "types": [
+   "ADDRESS"
+  ]
+ },
+ {
+  "text": "Total 560001 items",
+  "types": []
+ },
+ {
+  "text": "Balance 54,000 credited",
+  "types": []
+ },
+ {
+  "text": "Plain digits 123456789012 here",
+  "types": []
+ }
+]

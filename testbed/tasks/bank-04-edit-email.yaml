@@ -1,0 +1,9 @@
+id: bank-04-edit-email
+site: demobank
+start: login
+goal: log in then click "Profile" then type "new.mail@example.test" into "Email address"
+  then click "Save changes"
+success:
+  action: edit_profile
+  data:
+    email: new.mail@example.test

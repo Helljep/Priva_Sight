@@ -1,0 +1,9 @@
+id: mail-03-reply
+site: mailbox
+start: login
+goal: log in then click "Your KYC documents" then type "Confirmed, thanks" into "Message"
+  then click "Send reply"
+success:
+  action: send_mail
+  data:
+    body: Confirmed, thanks

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>City Hospital - Appointments</title><link rel="stylesheet" href="/common/site.css"></head>
+<body data-site="hospital" data-requires-login>
+<header class="top"><span class="brand">City Hospital</span><a href="record.html">My Record</a><a href="appointments.html">Appointments</a><a href="login.html" data-logout>Log out</a></header>
+<main>
+
+<section class="card"><h1>Book an appointment</h1>
+<form data-action="book_appointment" data-success="Appointment booked">
+<label for="dept">Department</label><select id="dept" name="dept"><option>General Medicine</option><option>Cardiology</option><option>Dermatology</option></select>
+<label for="date">Preferred date</label><input id="date" name="date" placeholder="2026-12-01">
+<button type="submit">Book appointment</button></form><div id="result"></div>
+<p>Next visit with <span data-pii="NAME">Dr. Menon</span></p></section>
+</main>
+<script src="/common/site.js"></script>
+</body></html>

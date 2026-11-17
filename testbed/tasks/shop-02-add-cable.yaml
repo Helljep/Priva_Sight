@@ -1,0 +1,6 @@
+id: shop-02-add-cable
+site: shopmart
+start: products
+goal: click "Add to cart" then expect "Added"
+success:
+  action: add_cart

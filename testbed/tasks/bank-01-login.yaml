@@ -1,0 +1,6 @@
+id: bank-01-login
+site: demobank
+start: login
+goal: log in
+success:
+  loggedIn: true

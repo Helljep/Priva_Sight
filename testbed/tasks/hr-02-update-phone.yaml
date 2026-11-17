@@ -1,0 +1,8 @@
+id: hr-02-update-phone
+site: hr
+start: login
+goal: log in then type "+91 97410 55555" into "Phone" then click "Save"
+success:
+  action: update_phone
+  data:
+    phone: +91 97410 55555

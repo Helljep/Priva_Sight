@@ -1,0 +1,6 @@
+id: meet-01-join
+site: videomeet
+start: login
+goal: log in then click "Join now"
+success:
+  action: join_meeting

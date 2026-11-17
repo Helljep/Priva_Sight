@@ -1,0 +1,6 @@
+id: hr-03-directory
+site: hr
+start: login
+goal: log in then click "Directory" then expect "Company directory"
+success:
+  page_text: Company directory

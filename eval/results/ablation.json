@@ -1,0 +1,26 @@
+[
+  {
+    "layers": "DOM rules only",
+    "text_pii_recall": 12.7,
+    "face_recall": 0.0,
+    "captures_with_leak": 195
+  },
+  {
+    "layers": "+ Regex (Verhoeff, Luhn, PAN)",
+    "text_pii_recall": 65.5,
+    "face_recall": 0.0,
+    "captures_with_leak": 195
+  },
+  {
+    "layers": "+ NER (names)",
+    "text_pii_recall": 100.0,
+    "face_recall": 0.0,
+    "captures_with_leak": 60
+  },
+  {
+    "layers": "+ Faces, video, OCR (full pipeline)",
+    "text_pii_recall": 100.0,
+    "face_recall": 94.7,
+    "captures_with_leak": 60
+  }
+]

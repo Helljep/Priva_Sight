@@ -1,0 +1,12 @@
+node_modules/
+__pycache__/
+*.pyc
+# big third-party files fetched by `npm run vendor` / `scripts/vendor.mjs --download`
+extension/vendor/
+extension/models/
+training/out/
+training/data/
+eval/results/*.log
+training/kaggle/*.zip
+eval/results/*.err
+eval/results/*.backup.json

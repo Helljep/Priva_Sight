@@ -1,0 +1,6 @@
+id: bank-09-dashboard-profile
+site: demobank
+start: login
+goal: log in then click "Dashboard" then click "Profile" then expect "Your profile"
+success:
+  page_text: Your profile

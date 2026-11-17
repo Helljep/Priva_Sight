@@ -1,0 +1,6 @@
+id: meet-04-leave
+site: videomeet
+start: room
+goal: click "Leave"
+success:
+  action: leave

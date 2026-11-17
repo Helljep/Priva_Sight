@@ -1,0 +1,10 @@
+id: hosp-03-book-dermatology
+site: hospital
+start: login
+goal: log in then click "Appointments" then select "Dermatology" in "Department" then
+  type "2026-12-01" into "Preferred date" then click "Book appointment"
+success:
+  action: book_appointment
+  data:
+    dept: Dermatology
+    date: '2026-12-01'

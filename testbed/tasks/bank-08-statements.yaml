@@ -1,0 +1,6 @@
+id: bank-08-statements
+site: demobank
+start: login
+goal: log in then click "Statements" then expect "Salary credit"
+success:
+  page_text: Salary credit
