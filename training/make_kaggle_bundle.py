@@ -66,7 +66,7 @@ print(os.listdir('.'))
 NER = notebook([
     md('# PrivaSight - fine-tune the name detector (BERT NER)\nCPU is enough (~70-90 min). Trains on our synthetic names PLUS public data '
        '(WikiANN English, Naamapadam Hindi). Prints the BASE vs FINE-TUNED score on held-out names, then exports int8 ONNX.'),
-    code('!pip install -q "transformers>=4.44" datasets seqeval "optimum[onnxruntime]" accelerate'),
+    code('!pip install -q "transformers>=4.44" datasets seqeval onnx onnxruntime accelerate'),
     code(CLONE),
     code('!python training/gen_ner_data.py --n 24000 --out training/data/ner_train.jsonl\n'
          '!python training/gen_ner_data.py --n 2000 --holdout --out training/data/ner_test.jsonl'),

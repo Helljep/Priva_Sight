@@ -6,7 +6,7 @@ NOT run on the development PC: PyTorch is blocked there by Windows Smart App
 Control. Run it on Kaggle / Colab (CPU is enough: ~70 minutes) or any machine
 with PyTorch:
 
-    pip install "transformers>=4.44" datasets seqeval "optimum[onnxruntime]" accelerate
+    pip install "transformers>=4.44" datasets seqeval accelerate
     python training/gen_ner_data.py --n 24000 --out training/data/ner_train.jsonl
     python training/gen_ner_data.py --n 2000 --holdout --out training/data/ner_test.jsonl
     python training/train_ner.py
@@ -143,13 +143,22 @@ def main():
     tok.save_pretrained(OUT)
 
     # ---- export to ONNX + int8 quantisation (what the browser loads) ----
-    from optimum.onnxruntime import ORTModelForTokenClassification, ORTQuantizer
-    from optimum.onnxruntime.configuration import AutoQuantizationConfig
-    ort = ORTModelForTokenClassification.from_pretrained(OUT, export=True)
-    ort.save_pretrained(OUT / 'onnx')
-    quantizer = ORTQuantizer.from_pretrained(OUT / 'onnx')
-    quantizer.quantize(save_dir=OUT / 'onnx', quantization_config=AutoQuantizationConfig.avx2(is_static=False, per_channel=False))
-    print('exported ->', OUT / 'onnx', '(model_quantized.onnx). Copy', OUT, 'to extension/models/bert-ner-in/')
+    # Done with plain torch + onnxruntime (no `optimum`: its versions clash with huggingface_hub on Kaggle).
+    import torch
+    from onnxruntime.quantization import QuantType, quantize_dynamic
+    (OUT / 'onnx').mkdir(exist_ok=True)
+    model.eval().to('cpu')
+    sample = tok(['Welcome back Rohan Sharma'], return_tensors='pt')
+    names = ['input_ids', 'attention_mask', 'token_type_ids']
+    torch.onnx.export(
+        model, tuple(sample[n] for n in names), str(OUT / 'onnx' / 'model.onnx'),
+        input_names=names, output_names=['logits'], opset_version=14, dynamo=False,
+        dynamic_axes={**{n: {0: 'batch', 1: 'sequence'} for n in names}, 'logits': {0: 'batch', 1: 'sequence'}})
+    quantize_dynamic(OUT / 'onnx' / 'model.onnx', OUT / 'onnx' / 'model_quantized.onnx', weight_type=QuantType.QInt8)
+    (OUT / 'onnx' / 'model.onnx').unlink()                       # keep only the small int8 file
+    for big in ('model.safetensors', 'pytorch_model.bin'):      # not needed in the browser
+        (OUT / big).unlink(missing_ok=True)
+    print('exported ->', OUT / 'onnx' / 'model_quantized.onnx', '(int8). Copy', OUT, 'to extension/models/bert-ner-in/')
 
 
 if __name__ == '__main__':
