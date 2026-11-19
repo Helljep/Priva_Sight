@@ -83,7 +83,7 @@ def main():
 
     data = SFTData(args.data, processor, Path(args.data).parent)
     targs = TrainingArguments(output_dir=args.out, num_train_epochs=args.epochs, per_device_train_batch_size=1,
-                              gradient_accumulation_steps=8, learning_rate=2e-4, warmup_ratio=0.03, lr_scheduler_type='cosine',
+                              gradient_accumulation_steps=8, learning_rate=2e-4, warmup_steps=10, lr_scheduler_type='cosine',
                               fp16=True, logging_steps=10, save_strategy='epoch', report_to=[], remove_unused_columns=False)
     Trainer(model=model, args=targs, train_dataset=data, data_collator=lambda batch: batch[0]).train()
     model.save_pretrained(args.out)
