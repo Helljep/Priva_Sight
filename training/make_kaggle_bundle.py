@@ -55,13 +55,22 @@ os.chdir('/kaggle/working/PrivaSight')
 print(os.listdir('.'))
 '''
 
+CLONE = '''
+# Scripts come straight from the public repo, so the name detector needs no dataset upload.
+import os
+!git clone -q https://github.com/Helljep/Priva_Sight.git /kaggle/working/PrivaSight
+os.chdir('/kaggle/working/PrivaSight')
+print(os.listdir('.'))
+'''
+
 NER = notebook([
-    md('# PrivaSight - fine-tune the name detector (BERT NER)\nCPU is enough (~70 min). Prints the BASE vs FINE-TUNED score on held-out names, then exports int8 ONNX.'),
+    md('# PrivaSight - fine-tune the name detector (BERT NER)\nCPU is enough (~70-90 min). Trains on our synthetic names PLUS public data '
+       '(WikiANN English, Naamapadam Hindi). Prints the BASE vs FINE-TUNED score on held-out names, then exports int8 ONNX.'),
     code('!pip install -q "transformers>=4.44" datasets seqeval "optimum[onnxruntime]" accelerate'),
-    code(UNZIP),
+    code(CLONE),
     code('!python training/gen_ner_data.py --n 24000 --out training/data/ner_train.jsonl\n'
          '!python training/gen_ner_data.py --n 2000 --holdout --out training/data/ner_test.jsonl'),
-    code('!python training/train_ner.py'),
+    code('!python training/train_ner.py --extra'),
     md('Download `training/out/bert-ner-in/` and `training/out/ner_metrics.json` (right panel > Output), '
        'then copy the folder to `extension/models/bert-ner-in/` on your laptop.'),
     code("!cd training/out && zip -qr /kaggle/working/bert-ner-in.zip bert-ner-in ner_metrics.json && ls -la /kaggle/working"),

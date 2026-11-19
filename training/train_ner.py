@@ -75,6 +75,47 @@ def evaluate(model, tok, test_rows):
     return {'precision': precision_score(golds, preds), 'recall': recall_score(golds, preds), 'f1': f1_score(golds, preds)}
 
 
+def extra_rows(max_per_source=20000):
+    """Best-effort extra training data from public sets, mapped to our PER-only labels.
+
+    Why: our synthetic snippets are clean. These add messier, real-world text so the model
+    does not just memorise our templates:
+      * WikiANN (English): names inside real Wikipedia sentences, many non-Indian names
+        (keeps the model from forgetting general names while it learns Indian ones).
+      * Naamapadam (Hindi, ai4bharat): Indian-language names, including Devanagari script,
+        which the deck lists as a weak spot.
+    Each source is optional: if a download fails the training carries on without it.
+    """
+    from datasets import load_dataset
+    rows = []
+
+    def add(ds, label_names, per_ids, source):
+        n = 0
+        for ex in ds:
+            if n >= max_per_source:
+                break
+            labels = [('B-PER' if label_names[t] == per_ids[0] else 'I-PER') if label_names[t] in per_ids else 'O'
+                      for t in ex['ner_tags']]
+            if 'B-PER' in labels and len(ex['tokens']) <= 60:
+                rows.append({'tokens': list(ex['tokens']), 'labels': labels})
+                n += 1
+        print(f'extra data: {n} sentences with names from {source}')
+
+    try:
+        ds = load_dataset('unimelb-nlp/wikiann', 'en', split='train')
+        names = ds.features['ner_tags'].feature.names
+        add(ds, names, ['B-PER', 'I-PER'], 'WikiANN-en')
+    except Exception as err:  # noqa: BLE001
+        print('skipped WikiANN:', str(err)[:120])
+    try:
+        ds = load_dataset('ai4bharat/naamapadam', 'hi', split='train')
+        names = ds.features['ner_tags'].feature.names
+        add(ds, names, ['B-PER', 'I-PER'], 'Naamapadam-hi')
+    except Exception as err:  # noqa: BLE001
+        print('skipped Naamapadam:', str(err)[:120])
+    return rows
+
+
 def main():
     tok = AutoTokenizer.from_pretrained(BASE)
     test_rows = [json.loads(line) for line in open(ROOT / 'data' / 'ner_test.jsonl', encoding='utf-8')]
@@ -85,7 +126,10 @@ def main():
 
     model = AutoModelForTokenClassification.from_pretrained(
         BASE, num_labels=len(LABELS), id2label=dict(enumerate(LABELS)), label2id=L2I, ignore_mismatched_sizes=True)
-    ds = load(ROOT / 'data' / 'ner_train.jsonl').map(encode(tok), batched=True, remove_columns=['tokens', 'labels'])
+    own = [json.loads(line) for line in open(ROOT / 'data' / 'ner_train.jsonl', encoding='utf-8')]
+    extra = extra_rows() if '--extra' in __import__('sys').argv else []
+    print(f'training on {len(own)} synthetic + {len(extra)} public sentences')
+    ds = Dataset.from_list(own + extra).shuffle(seed=1).map(encode(tok), batched=True, remove_columns=['tokens', 'labels'])
     args = TrainingArguments(output_dir=str(OUT / 'ckpt'), num_train_epochs=2, per_device_train_batch_size=32,
                              learning_rate=3e-5, weight_decay=0.01, logging_steps=100, save_strategy='no', report_to=[])
     Trainer(model=model, args=args, train_dataset=ds, data_collator=DataCollatorForTokenClassification(tok)).train()
