@@ -58,6 +58,20 @@ One run per task, max 10 steps, 10 s/step budget not enforced.
 The unsafe run leaked in only 2 of 32 runs because the weak model rarely reaches pages that show PII; do not read that as a leak rate.
 Note: the `qwen3-vl:2b` Ollama tag is a thinking build that returns empty answers within our token budget; `qwen3-vl:2b-instruct` was used.
 
+## Name model: fine-tuned vs public baseline (name layer alone, 225 captures)
+
+Fine-tuned on Kaggle: 24,000 synthetic sentences + 7,244 WikiANN-English sentences (Naamapadam failed to load, so no Hindi/Devanagari data).
+
+| Model | Held-out synthetic names F1 | Name recall in the extension | Precision of redaction boxes |
+|---|---|---|---|
+| Public baseline (dslim/bert-base-NER) | 0.884 | 100% (315/315) | 78.8% |
+| Fine-tuned v1 | 0.994 | 100% (315/315) | 50.7% |
+
+**Reading:** the 0.994 only shows the model learned our own templates. Inside the real pipeline it catches the same names
+but wrongly flags many ordinary words as names (precision drops 28 points), so it would mask page text the agent needs.
+The baseline stays active; v1 is kept in `extension/models/bert-ner-finetuned-v1/`.
+Likely fix: add hard negatives (UI-only text with no names, page labels, headings) to the training data and re-train.
+
 ## What this does not show
 * A real base VLM was run (above), but a LoRA-tuned model was not, so base-vs-LoRA improvement is unmeasured.
 * NER fine-tuning and LoRA training scripts exist but were never run.

@@ -1,0 +1,115 @@
+{
+  "layers_on": [
+    "ner"
+  ],
+  "captures": 225,
+  "per_category": {
+    "Names": {
+      "items": 315,
+      "hidden": 315,
+      "leaked": 0,
+      "recall": 100.0
+    },
+    "Addresses / DOB / IFSC": {
+      "items": 180,
+      "hidden": 0,
+      "leaked": 180,
+      "recall": 0.0
+    },
+    "Phone / Email": {
+      "items": 210,
+      "hidden": 0,
+      "leaked": 210,
+      "recall": 0.0
+    },
+    "Aadhaar / PAN / Card": {
+      "items": 120,
+      "hidden": 30,
+      "leaked": 90,
+      "recall": 25.0
+    },
+    "Faces": {
+      "items": 150,
+      "hidden": 0,
+      "leaked": 150,
+      "recall": 0.0
+    }
+  },
+  "text_pii_recall": 41.8,
+  "face_recall": 0.0,
+  "captures_with_leak": 135,
+  "leaking_fields": {
+    "account": 45,
+    "ifsc": 30,
+    "phone": 135,
+    "email": 70,
+    "dob": 30,
+    "aadhaar": 45,
+    "address": 75,
+    "card": 30,
+    "pan": 15
+  },
+  "leaking_vault_values": {},
+  "by_field": {
+    "name": {
+      "items": 255,
+      "hidden": 255
+    },
+    "account": {
+      "items": 45,
+      "hidden": 0
+    },
+    "ifsc": {
+      "items": 30,
+      "hidden": 0
+    },
+    "phone": {
+      "items": 135,
+      "hidden": 0
+    },
+    "email": {
+      "items": 75,
+      "hidden": 0
+    },
+    "dob": {
+      "items": 30,
+      "hidden": 0
+    },
+    "aadhaar": {
+      "items": 45,
+      "hidden": 0
+    },
+    "pan": {
+      "items": 45,
+      "hidden": 30
+    },
+    "address": {
+      "items": 75,
+      "hidden": 0
+    },
+    "card": {
+      "items": 30,
+      "hidden": 0
+    },
+    "NAME": {
+      "items": 45,
+      "hidden": 45
+    },
+    "face": {
+      "items": 150,
+      "hidden": 0
+    },
+    "first": {
+      "items": 15,
+      "hidden": 15
+    }
+  },
+  "not_scored_fields": {
+    "balance": 15,
+    "department": 75,
+    "condition": 15,
+    "doctor": 15
+  },
+  "precision": 50.7,
+  "median_latency_ms": 1374
+}
