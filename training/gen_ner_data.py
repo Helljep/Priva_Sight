@@ -47,6 +47,49 @@ TEMPLATES = [
 NEG_TEMPLATES = ["Welcome to {x}", "Open {x}", "Go to {x}", "{x} settings", "Search in {x}", "Visit {x} today", "Powered by {x}"]
 
 
+# --- Negatives: ordinary page text that contains NO person ------------------------------------
+# v1 of the fine-tuned model flagged many such words as names (precision 50.7% vs 78.8% for the
+# public baseline). These are written independently of the test sites so the eval stays honest.
+UI_WORDS = """Dashboard Profile Settings Logout Login Register Home Overview Summary History Statement Transactions Transfer Payment
+Payments Beneficiary Balance Amount Status Date Time Reference Receipt Invoice Orders Order Cart Checkout Wishlist Products Category
+Search Filter Sort Reset Submit Cancel Confirm Continue Back Next Save Edit Delete Update Upload Download Print Share Help Support
+Contact About Careers Security Privacy Terms Notifications Messages Inbox Sent Drafts Spam Trash Compose Reply Forward Calendar
+Meetings Schedule Participants Mute Camera Present Record Chat Leave Join Appointments Doctors Patients Reports Prescriptions Billing
+Insurance Departments Employees Payroll Leave Attendance Holidays Documents Policies Directory Team Manager Department Employee
+Account Savings Current Deposit Loan Card Credit Debit Statement Limit Rewards Offers Coupons Delivery Shipping Returns Refund
+Tracking Reviews Ratings Brand Price Discount Quantity Total Subtotal Tax Address Phone Email Password Username Verify Code
+Account Number Branch IFSC Mobile Aadhaar PAN Card Number Expiry Holder Optional Required Active Pending Completed Failed Approved""".split()
+UI_STATUS = ["Active", "Pending", "Completed", "Failed", "Approved", "Verified", "Overdue", "Paid", "Shipped", "Delivered", "Scheduled"]
+UI_FILLERS = ["Please", "Your", "All", "New", "Recent", "Quick", "My", "View", "Manage", "Add", "Select", "Enter", "Choose", "Total", "No"]
+UI_SENTENCES = [
+    "Your session will expire in 5 minutes", "No transactions found for this period", "Select a payee to continue",
+    "Enter the one time password sent to your registered mobile", "Your request has been submitted successfully",
+    "Please verify your details before confirming", "Download the latest statement as PDF", "Terms and conditions apply",
+    "Manage notifications and security settings", "Add a new beneficiary to transfer funds", "This meeting is being recorded",
+    "Choose a department to view employees", "Book an appointment with a specialist", "Track your order and delivery status",
+    "Update your profile and contact preferences", "Recent activity across all accounts", "You have no unread messages",
+    "Click here to reset your password", "Invalid username or password", "All fields marked required must be filled",
+]
+
+
+def neg_phrase(rng):
+    """Title-case UI words only: nav bars, headings, buttons, table headers."""
+    k = rng.randint(1, 6)
+    words = [rng.choice(UI_WORDS) for _ in range(k)]
+    if rng.random() < 0.3:
+        words.insert(0, rng.choice(UI_FILLERS))
+    sep = rng.choice([' ', ' ', ' | ', ' > ', ' - '])
+    return sep.join(words) if sep != ' ' else ' '.join(words)
+
+
+def neg_label_value(rng):
+    """'Label: value' lines where the value is a number/date/status, not a name."""
+    label = ' '.join(rng.choice(UI_WORDS) for _ in range(rng.randint(1, 2)))
+    value = rng.choice([str(rng.randint(10, 99999)), f'{rng.randint(1, 28)} Oct 2026', rng.choice(UI_STATUS),
+                        f'INR {rng.randint(100, 90000):,}', f'{rng.randint(1, 12)}:{rng.randint(10, 59)} PM'])
+    return f'{label}: {value}'
+
+
 def person(first, last, rng):
     return rng.choice([f'{rng.choice(first)} {rng.choice(last)}', rng.choice(first), f'{rng.choice(first)} {rng.choice(last)}'])
 
@@ -80,8 +123,22 @@ def render(template, fill):
 
 
 def make(rng, first, last):
-    if rng.random() < 0.15:  # hard negative, no PER at all
-        text, spans = render(rng.choice(NEG_TEMPLATES), {'x': (rng.choice(HARD_NEGATIVES), False)})
+    r = rng.random()
+    if r < 0.45:  # no person at all: the biggest fix for v1's over-flagging
+        kind = rng.random()
+        spans = []
+        if kind < 0.40:
+            text = neg_phrase(rng)
+        elif kind < 0.60:
+            text = neg_label_value(rng)
+        elif kind < 0.80:
+            text = rng.choice(UI_SENTENCES)
+        else:
+            text, spans = render(rng.choice(NEG_TEMPLATES), {'x': (rng.choice(HARD_NEGATIVES), False)})
+    elif r < 0.55:  # a name surrounded by ordinary UI words: only the name may be tagged
+        fill = {'a': (neg_phrase(rng), False), 'n': (person(first, last, rng), True),
+                'b': (rng.choice([neg_phrase(rng), neg_label_value(rng)]), False)}
+        text, spans = render(rng.choice(['{a} {n} {b}', '{a}: {n} - {b}', '{n} {b}', '{a} {n}']), fill)
     else:
         fill = {'n': (person(first, last, rng), True), 'n2': (person(first, last, rng), True), 'l': (rng.choice(last), True)}
         text, spans = render(rng.choice(TEMPLATES), fill)
