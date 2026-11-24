@@ -66,11 +66,15 @@ Fine-tuned on Kaggle: 24,000 synthetic sentences + 7,244 WikiANN-English sentenc
 |---|---|---|---|
 | Public baseline (dslim/bert-base-NER) | 0.884 | 100% (315/315) | 78.8% |
 | Fine-tuned v1 | 0.994 | 100% (315/315) | 50.7% |
+| Fine-tuned v2 (hard negatives) | 0.993 | 100% (315/315) | 82.4% |
 
 **Reading:** the 0.994 only shows the model learned our own templates. Inside the real pipeline it catches the same names
 but wrongly flags many ordinary words as names (precision drops 28 points), so it would mask page text the agent needs.
-The baseline stays active; v1 is kept in `extension/models/bert-ner-finetuned-v1/`.
-Likely fix: add hard negatives (UI-only text with no names, page labels, headings) to the training data and re-train.
+v1 is kept in `extension/models/bert-ner-finetuned-v1/`.
+
+**v2 fix:** 45% of the training sentences now contain no person (menu words, headers, status labels, "Label: value" lines) and 10% put a name among UI words.
+Same recall, precision back up to 82.4% (baseline 78.8%), so v2 is the active model. The gain over the baseline is small (+3.6 points) and comes from one run on our synthetic pages.
+One sentence still fails for both v2 and the baseline: "Meera Krishnamurthy" inside a 62-word line (`eval/test_ner_model.py`).
 
 ## What this does not show
 * A real base VLM was run (above), but a LoRA-tuned model was not, so base-vs-LoRA improvement is unmeasured.

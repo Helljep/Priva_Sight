@@ -51,8 +51,8 @@ adapters live on redacted screens.
 
 - **Name detector v1** (synthetic names + WikiANN-en): held-out F1 0.994, but on the real-page eval its precision dropped to 50.7%
   (public baseline 78.8%, recall 100% for both). It flagged ordinary UI words as names, so the baseline stays active.
-- **Name detector v2** (commit `d301c88`): 45% of training sentences now contain no person (menu words, headers, status labels,
-  "Label: value" lines) and 10% place a name among UI words. Retrain started on Kaggle; result **not yet measured**. Adopt it only if
-  precision is at least 78.8% with recall unchanged (`python eval/run_privacy_eval.py --layers ner --tag ...`).
+- **Name detector v2** (commit `d301c88`): 45% of training sentences contain no person (menu words, headers, status labels,
+  "Label: value" lines) and 10% place a name among UI words. Held-out F1 0.993; on the real-page eval recall stayed 100% and
+  precision rose to 82.4% (baseline 78.8%), so it is now the active model in `extension/models/bert-ner-in/`.
 - **Qwen3-VL LoRA**: trained (2 epochs, 1,309 samples); loss near zero suggests memorisation. The adapter has not been evaluated on the
   32 tasks, and loading it into Ollama needs a merge + GGUF conversion done off this PC.
