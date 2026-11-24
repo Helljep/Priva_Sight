@@ -4,6 +4,7 @@
 # Inputs to attach: the held-out dataset (privasight-heldout) and the output of the LoRA notebook
 # (privasight-lora-run). Optional: the original bundle dataset, to also score training steps.
 set -e
+export CUDA_VISIBLE_DEVICES=0  # one GPU: splitting a 2B model over two T4s only adds transfer time
 cd Priva_Sight
 pip install -q -U "transformers>=4.57" peft bitsandbytes accelerate qwen-vl-utils
 
@@ -19,4 +20,4 @@ fi
 ADAPTER=$(dirname "$ADAPTER_CFG")
 echo "held-out: $HELD | train: $TRAIN | adapter: $ADAPTER"
 
-python training/eval_lora_heldout.py --heldout "$HELD" --adapter "$ADAPTER" ${TRAIN:+--train "$TRAIN"} --limit 300
+python training/eval_lora_heldout.py --heldout "$HELD" --adapter "$ADAPTER" ${TRAIN:+--train "$TRAIN"} --limit 100

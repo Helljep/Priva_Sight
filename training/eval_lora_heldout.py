@@ -71,7 +71,7 @@ def answer(model, processor, sys_prompt, row, root):
             {'role': 'user', 'content': [{'type': 'image'}, {'type': 'text', 'text': row['prompt']}]}]
     prompt = processor.apply_chat_template(msgs, add_generation_prompt=True, tokenize=False)
     enc = processor(text=[prompt], images=[image], return_tensors='pt').to(model.device)
-    out = model.generate(**enc, max_new_tokens=200, do_sample=False)
+    out = model.generate(**enc, max_new_tokens=120, do_sample=False)
     return processor.batch_decode(out[:, enc['input_ids'].shape[1]:], skip_special_tokens=True)[0]
 
 
