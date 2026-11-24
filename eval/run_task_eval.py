@@ -34,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from common import ROOT, browser_with_extension, free_port, planner_server, static_server  # noqa: E402
 
 PERSONAS = json.loads((ROOT / 'testbed/sites/data/personas.json').read_text(encoding='utf-8'))
+LAYOUT = 1  # page layout (1-5); training data was recorded on layout 1 only
 PII_FIELDS = ['aadhaar', 'pan', 'card', 'phone', 'email', 'address', 'dob', 'account', 'ifsc', 'name', 'password']
 NEEDS_LOGIN = {'demobank', 'hr', 'hospital', 'mailbox', 'videomeet'}
 
@@ -44,7 +45,7 @@ def norm(s):
 
 def do_login(page, base, site, pidx):
     me = PERSONAS[pidx]
-    page.goto(f'{base}/{site}/login.html?p={pidx}&layout=1')
+    page.goto(f'{base}/{site}/login.html?p={pidx}&layout={LAYOUT}')
     page.wait_for_selector('body[data-ready]')
     page.fill('[name=username]', me['username'])
     page.fill('[name=password]', me['password'])
@@ -70,11 +71,11 @@ def run_one(ctx, harness, base, server_url, task, pidx, condition, max_steps, sf
     site, start = task['site'], task['start']
     page = ctx.new_page()
     page.bring_to_front()
-    page.goto(f'{base}/{site}/login.html?p={pidx}&layout=1')
+    page.goto(f'{base}/{site}/login.html?p={pidx}&layout={LAYOUT}')
     page.evaluate('window.__reset && window.__reset()')
     if start != 'login' and site in NEEDS_LOGIN:
         do_login(page, base, site, pidx)
-    page.goto(f'{base}/{site}/{start}.html?p={pidx}&layout=1')
+    page.goto(f'{base}/{site}/{start}.html?p={pidx}&layout={LAYOUT}')
     page.wait_for_selector('body[data-ready]')
     me = PERSONAS[pidx]
     secrets = {'{USERNAME}': me['username'], '{PASSWORD}': me['password']}
@@ -110,7 +111,7 @@ def record_sft(folder, task, pidx, run):
     with (out / 'sft.jsonl').open('a', encoding='utf-8') as f:
         for i, (body, ev) in enumerate(zip(run['sentBodies'], actions)):
             req = json.loads(body)
-            img = f"images/{task['id']}_p{pidx}_{i}.jpg"
+            img = f"images/{task['id']}_l{LAYOUT}_p{pidx}_{i}.jpg"  # layout in the name so layouts never overwrite each other
             (out / img).write_bytes(base64.b64decode(req['screenshot'].split(',', 1)[1]))
             action = {k: v for k, v in ev['action'].items() if v is not None and v is not False}
             answer = json.dumps({**action, 'thought': ev.get('thought', '')}, ensure_ascii=False)
@@ -126,8 +127,12 @@ def main():
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--max-steps', type=int, default=12)
     ap.add_argument('--headed', action='store_true')
+    ap.add_argument('--layout', type=int, default=1, help='page layout 1-5 (use 2-5 to record held-out data)')
+    ap.add_argument('--persona-offset', type=int, default=0, help='shift persona choice (held-out personas)')
     ap.add_argument('--record-sft', default='', help='folder to write SFT training samples from successful runs')
     args = ap.parse_args()
+    global LAYOUT
+    LAYOUT = args.layout
 
     tasks = [yaml.safe_load(p.read_text(encoding='utf-8')) for p in sorted((ROOT / 'testbed/tasks').glob('*.yaml'))]
     if args.limit:
@@ -140,7 +145,7 @@ def main():
             browser_with_extension(headless=not args.headed) as (ctx, harness):
         for task in tasks:
             for r in range(args.runs):
-                pidx = (r * 17 + 3) % len(PERSONAS)
+                pidx = (r * 17 + 3 + args.persona_offset) % len(PERSONAS)
                 res = run_one(ctx, harness, base, server_url, task, pidx, args.condition, args.max_steps, args.record_sft or None)
                 results.append(res)
                 print(f"{task['id']:28s} p{pidx:<2d} {'OK  ' if res['success'] else 'FAIL'} {res['status']:9s} leak={res['leak']}", flush=True)
