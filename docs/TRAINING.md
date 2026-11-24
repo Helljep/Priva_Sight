@@ -46,3 +46,13 @@ Until you do this, the extension uses the public baseline `Xenova/bert-base-NER`
 To show the gain comes from redaction-aware training and not from extra data, also train on the *clean* (un-redacted)
 screens (`--condition unsafe` with `--record-sft`, but note those images contain synthetic PII) and evaluate both
 adapters live on redacted screens.
+
+## What actually happened on Kaggle (Nov 2026)
+
+- **Name detector v1** (synthetic names + WikiANN-en): held-out F1 0.994, but on the real-page eval its precision dropped to 50.7%
+  (public baseline 78.8%, recall 100% for both). It flagged ordinary UI words as names, so the baseline stays active.
+- **Name detector v2** (commit `d301c88`): 45% of training sentences now contain no person (menu words, headers, status labels,
+  "Label: value" lines) and 10% place a name among UI words. Retrain started on Kaggle; result **not yet measured**. Adopt it only if
+  precision is at least 78.8% with recall unchanged (`python eval/run_privacy_eval.py --layers ner --tag ...`).
+- **Qwen3-VL LoRA**: trained (2 epochs, 1,309 samples); loss near zero suggests memorisation. The adapter has not been evaluated on the
+  32 tasks, and loading it into Ollama needs a merge + GGUF conversion done off this PC.
